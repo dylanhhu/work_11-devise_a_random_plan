@@ -20,12 +20,21 @@ int main() {
     }
 
     printf("\nWriting numbers to file...\n");
+    
     int file = open("rand_nums.bruh", O_WRONLY | O_CREAT, 0644);
+    if (file == -1) {
+        printf("Couldn't open file for writing\n");
+        return -1;
+    }
     write(file, rand_nums, sizeof(rand_nums));
     close(file);
 
     printf("\nReading numbers from file...\n");
     file = open("rand_nums.bruh", O_RDONLY);
+    if (file == -1) {
+        printf("Couldn't open file for reading\n");
+        return -1;
+    }
     read(file, read_nums, sizeof(read_nums));
     close(file);
 
@@ -42,8 +51,12 @@ int main() {
 // /dev/random
 int gen_rand_int() {
     int * buf = malloc(sizeof(int));
+    int file;
 
-    int file = open("/dev/random", O_RDONLY);
+    do {
+        file = open("/dev/random", O_RDONLY);
+    } while (file == -1);
+
     read(file, buf, sizeof(int));
     close(file);
 
