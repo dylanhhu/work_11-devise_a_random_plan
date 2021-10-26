@@ -13,4 +13,5 @@ comprun: all
 clean:
 	rm *.o
 	rm main.out
+	rm *.bruh
 	
